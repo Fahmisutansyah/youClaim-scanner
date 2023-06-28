@@ -20,7 +20,7 @@
           placeholder="1pQIjj0"
           variant="outlined"
         />
-        <v-btn class="" @click="submit" variant="tonal">
+        <v-btn class="" @click="onDecode" variant="tonal" :disabled="code.length === 0">
           Submit
         </v-btn>
       </div>
