@@ -1,6 +1,8 @@
 <template>
-  <div class="login__container d-flex w-100 flex-column justify-center align-center pa-4">
-    <page-header/>
+  <div class="login__container d-flex w-100 flex-column pa-4">
+    <div class="mb-12">
+      <page-header/>
+    </div>
     <div class="w-100">
       <div class="login__content d-flex flex-column align-center mb-10">
         <img class="login__logo" src="@/assets/images/youclaim-logo-final.png"/>
