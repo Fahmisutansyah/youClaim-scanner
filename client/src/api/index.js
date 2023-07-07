@@ -66,3 +66,36 @@ export function redeem(payload) {
       })
   })
 }
+export function getMerchantOwned(token) {
+  return new Promise((resolve, reject) => {
+    api
+      .get(`/users/owned`, {
+        headers: {
+          token: token
+        }
+      })
+      .then(({ data }) => {
+        resolve({ data })
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+}
+
+export function getPayload(token) {
+  return new Promise((resolve, reject) => {
+    api
+      .get(`/users/pl`, {
+        headers: {
+          token: token
+        }
+      })
+      .then(({ data }) => {
+        resolve({ data })
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+}

@@ -8,7 +8,7 @@
         <img class="login__logo" src="@/assets/images/youclaim-logo-final.png"/>
         <p class="font-weight-bold text-h5 mt-4">YOUCLAIM</p>
       </div>
-      <div class="login__form">
+      <div class="login__form ">
         <login-form/>
       </div>
     </div>
@@ -40,5 +40,6 @@ export default {
   &__logo{
     width: 60px;
   }
+
 }
 </style>

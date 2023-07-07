@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form">
+  <v-form ref="form" class="form">
     <v-text-field
       class="mb-3"
       :value="formData.email"
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { login } from '@/api'
+import { login, getMerchantOwned, getPayload } from '@/api'
 export default {
   data(){
     return {
@@ -52,11 +52,46 @@ export default {
           this.isLoading = true
           const {email, password} = this.formData
           login(email, password).then(({data})=>{
-            localStorage.setItem('claimToken', data.token)
-            setTimeout(()=>{
-              this.isLoading = false 
-              this.$router.push('/scan')
-            }, 1500)
+            getMerchantOwned(data.token)
+            .then((owned)=>{
+              getPayload(data.token)
+              .then((user)=>{
+                if(owned.data.requestId.includes(user.data._id.toString())){
+                  this.$swal({
+                    icon: 'error',
+                    title: 'Not registered to Merchant',
+                    text: 'Please register to a merchant!'
+                  })
+                  setTimeout(()=>{
+                    this.isLoading = false 
+                  }, 1500)
+                }else{
+                  localStorage.setItem('claimToken', data.token)
+                  setTimeout(()=>{
+                    this.isLoading = false 
+                    this.$router.push('/scan')
+                  }, 1500)
+                }
+              })
+              .catch(()=>{
+                this.$swal({
+                  icon: 'error',
+                  title: 'Oops..',
+                  text: 'Something went wrong..'
+                })
+              })
+            })
+            .catch(()=>{
+              this.$swal({
+                icon: 'error',
+                title: 'Not registered to Merchant',
+                text: 'Please register to a merchant!'
+              })
+              setTimeout(()=>{
+                this.isLoading = false 
+              }, 1500)
+            })
+
           })
           .catch(err=>{
             this.isLoading = false
@@ -64,7 +99,7 @@ export default {
               this.$swal({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Check your email and passsword'
+                text: 'Check your email and password'
               })
             }else{
               this.$swal({
