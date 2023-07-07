@@ -48,7 +48,9 @@ export default {
   },
   methods: {
     onDecode(string){
-      this.code = string
+      if(typeof string === 'string'){
+        this.code = string
+      }
       redeem({uniqueCode: this.code})
       .then(()=>{
         this.decoded = true
